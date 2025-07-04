@@ -16,6 +16,9 @@ You need to install the following requirements:
 - [deno]
 - [Docker] (with [Docker Compose])
 
+> [!NOTE]
+> In Chrome you may need to active the `Experimental Web Platform Features` flag to enable bluetooth (see [How to Enable Experimental Web Platform Features in Chrome Browser]).
+
 As an example we deploy the code from the [src](./src) directory to a [nginx] service in a [Docker Compose] environment. You can start the [Docker Compose] with the following command:
 
 ```bash
@@ -56,8 +59,10 @@ This deployment uses a read-only volume mount to the source directory to get the
 - [Docker]
 - [Docker Compose]
 - [nginx]
+- [How to Enable Experimental Web Platform Features in Chrome Browser]
 
 [deno]: https://deno.com/
 [Docker]: https://www.docker.com/
 [Docker Compose]: https://docs.docker.com/compose/
 [nginx]: https://nginx.org/en/
+[How to Enable Experimental Web Platform Features in Chrome Browser]: https://techviral.net/enable-experimental-web-platform-features-in-chrome/
