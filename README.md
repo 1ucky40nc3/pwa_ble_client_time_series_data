@@ -104,6 +104,21 @@ I wont implement a build step to create the static files (HTML, CSS, JS, PNG, JS
 - No advantages from frameworks (like imports in JS files)
 - File paths for PWA cache through service worker have to be updated manually in [sw.js](./src/sw.js)
 
+#### ADR 3 - "Network First, then Cache Fallback" Caching Strategy for Service Worker
+
+We implement a "Network First, then Cache Fallback" caching strategy for the service worker.
+
+**Advantages:**
+
+- Always latest files automatically (when online)
+- Works Offline
+
+**Disadvantages:**
+
+- Might feel a bit slower first time (when online) - not instant
+- Uses more data (compared to others)
+- Adds complexity to code
+
 ## Development
 
 ### Preview
