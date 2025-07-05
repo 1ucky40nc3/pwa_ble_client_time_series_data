@@ -2,22 +2,52 @@ console.log("Hello, GeeksforGeeks!");
 import { add } from "./utils.js";
 console.log(`1 + 1 = ${add(1, 1)}`);
 
+let newWorker; // to hold the new service worker
+let refreshing; // flag to prevent multiple reloads
+
 if ("serviceWorker" in navigator) {
-  globalThis.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .then((registration) => {
-        console.log(
-          "Service Worker registered with scope:",
-          registration.scope
-        );
-      })
-      .catch((error) => {
-        console.log("Service Worker registration failed:", error);
+  navigator.serviceWorker
+    .register("/sw.js")
+    .then((reg) => {
+      console.log("service worker registered:", reg);
+
+      // listen for when a new service worker is found and waiting
+      reg.addEventListener("updatefound", () => {
+        newWorker = reg.installing;
+
+        if (newWorker) {
+          newWorker.addEventListener("statechange", () => {
+            if (
+              newWorker.state === "installed" &&
+              navigator.serviceWorker.controller
+            ) {
+              // a new service worker is installed and waiting
+              // (and there's an old one controlling the page)
+              document.getElementById("updateButton").style.display = "block";
+            }
+          });
+        }
       });
+    })
+    .catch((error) => {
+      console.error("service worker registration failed:", error);
+    });
+
+  // listen for the controllerchange event
+  // this fires when a new service worker takes control
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (refreshing) return; // prevent infinite reload loops
+    refreshing = true;
+    window.location.reload(); // reload the page to apply the update
   });
 }
 
+document.getElementById("updateButton").addEventListener("click", () => {
+  if (newWorker) {
+    // tell the waiting service worker to skip waiting and activate
+    newWorker.postMessage({ type: "SKIP_WAITING" });
+  }
+});
 // ********************************************
 // Web Bluetooth API Example
 // ********************************************
