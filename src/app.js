@@ -1,6 +1,6 @@
 console.log('Hello, GeeksforGeeks!');
-import {add} from "./utils.js";
-console.log(`1 + 1 = ${add(1, 1)}`);
+
+console.log(`1 + 1 = ${add(1, 1)}`)
 
 
 if ('serviceWorker' in navigator) {

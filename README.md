@@ -27,6 +27,84 @@ docker compose up
 
 Further details on the deployment can be found in the [Deployment](#deployment) section.
 
+## Documentation
+
+The following diagram illustrates the architecture.
+
+```mermaid
+C4Container
+    title Bluetooth Low Energy (BLE) Architecture
+
+    System_Boundary(mobile_device, "Mobile Device") {
+        Container(pwa_client, "PWA Bluetooth Client", "Progressive Web App", "Runs in a browser on the mobile device, uses Web Bluetooth API to connect and receive data.")
+    }
+
+    Container(bluetooth_server, "Bluetooth Server", "Hardware/Software Device", "Sends data packets using BLE protocol.")
+
+    Rel(bluetooth_server, pwa_client, "Sends Data Packets", "Bluetooth Low Energy (BLE)")
+```
+
+The system consists of two primary components:
+
+Bluetooth Client (PWA): This client is implemented as a Progressive Web App (PWA). PWAs are web applications that can offer an app-like experience, including offline capabilities and access to certain device features when running in a compatible browser. In this architecture, the PWA runs within a web browser on a mobile device (e.g., smartphone or tablet). It leverages the Web Bluetooth API (or similar browser-level Bluetooth access) to interact with BLE devices.
+
+Bluetooth Server: This is a separate hardware device or software running on a device that acts as a BLE peripheral. It's responsible for broadcasting data packets to the BLE client.
+
+Communication Flow
+The communication between the client and server is primarily one-way, from the server to the client, utilizing the Bluetooth Low Energy (BLE) protocol.
+
+BLE Protocol: Both the client and server communicate using Bluetooth Low Energy (BLE), which is designed for low power consumption and is ideal for small, periodic data transfers.
+
+Packet Transmission: The Bluetooth server continuously sends data packets.
+
+Client Reception: The PWA client, running on the mobile device, scans for and connects to the Bluetooth server. Once connected, it receives the incoming data packets.
+
+Unidirectional Data Flow: Aside from the initial BLE connection establishment and protocol-level acknowledgements, the application-level data flow is from the server to the client. The client does not send application-specific data back to the server.
+
+This architecture is suitable for scenarios where a mobile application needs to passively receive sensor data, notifications, or other information from a BLE-enabled device.
+
+### Architecture Decisions
+
+#### ADR 1 - Plain HTML, CSS and JS to implement PWA
+
+I implement the PWA in plain HTML, CSS and JS. The files can be served as static (file) resources.
+
+**Advantages:**
+
+- Static files can be served platform indipendent
+- Standard web technologies are quite sustainable
+- I don't have to learn a fancy framework
+
+**Disadvantages:**
+
+- No fancy server side features
+- Tooling is not as nice for JS development
+
+I have the following considerations for the JS development:
+
+I want to have good static analysis, testing and documentation capabilities. For this purpose I use [deno] to implement [testing](#testing) and [linting](#linting). But [deno] is not a browser environment. This means that the access to some global variables (especially the DOM) is not possible. On the other hand syntax for imports is not supported in browser environments. Because of this I keep the following in mind for JS development:
+
+- I use the [app.js](./src/app.js) file access to the DOM
+- I don't write test with [deno] for the [app.js](./src/app.js) file
+- I write util files that can be tested with [deno] (see [utils.js](./src/utils.js))
+- I can't use imports in util files
+- I have to import the util files via script tags in the [index.html](./src/index.html) (before the [app.js](./src/app.js) script tag)
+
+#### ADR 2 - Plain HTML, CSS and JS to implement PWA
+
+I wont implement a build step to create the static files (HTML, CSS, JS, PNG, JSON) that are served as the PWA. This goes in line with [ADR 1](#adr-1---plain-html-css-and-js-to-implement-pwa).
+
+**Advantages:**
+
+- No added complexity via build step
+- Files are always human readable
+
+**Disadvantages:**
+
+- Files can't be minimized
+- No advantages from frameworks (like imports in JS files)
+- File paths for PWA cache through service worker have to be updated manually in [sw.js](./src/sw.js)
+
 ## Development
 
 ### Preview
@@ -39,6 +117,14 @@ You can use the [deno] testing command to execute the tests:
 
 ```bash
 deno test
+```
+
+### Linting
+
+You can use the [deno] testing command to execute the tests:
+
+```bash
+deno lint
 ```
 
 ## Deployment
