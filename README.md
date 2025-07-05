@@ -153,6 +153,7 @@ You can deploy the code from the [src](./src) directory to a [nginx] service in 
 
 ```bash
 docker compose up
+# Open http://localhost in a incognito tab
 ```
 
 This deployment uses a read-only volume mount to the source directory to get the source files.
