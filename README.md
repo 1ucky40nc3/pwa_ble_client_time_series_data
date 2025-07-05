@@ -82,12 +82,11 @@ I implement the PWA in plain HTML, CSS and JS. The files can be served as static
 
 I have the following considerations for the JS development:
 
-I want to have good static analysis, testing and documentation capabilities. For this purpose I use [deno] to implement [testing](#testing) and [linting](#linting). But [deno] is not a browser environment. This means that the access to some global variables (especially the DOM) is not possible. On the other hand syntax for imports is not supported in browser environments. Because of this I keep the following in mind for JS development:
+I want to have good static analysis, testing and documentation capabilities. For this purpose I use [deno] to implement [testing](#testing) and [linting](#linting). But [deno] is not a browser environment. This means that the access to some global variables (especially the DOM) is not possible. Because of this I keep the following in mind for JS development:
 
 - I use the [app.js](./src/app.js) file access to the DOM
 - I don't write test with [deno] for the [app.js](./src/app.js) file
 - I write util files that can be tested with [deno] (see [utils.js](./src/utils.js))
-- I can't use imports in util files
 - I have to import the util files via script tags in the [index.html](./src/index.html) (before the [app.js](./src/app.js) script tag)
 
 #### ADR 2 - Plain HTML, CSS and JS to implement PWA
@@ -113,15 +112,19 @@ During development (in VSCode) you can use the `Live Server` extension (see exte
 
 ### Testing
 
-You can use the [deno] testing command to execute the tests:
+You can use the [Deno CLI Test Command] to execute the tests:
 
 ```bash
 deno test
+# Also run documentation tests
+deno test --doc
 ```
+
+Refer to the documentation for more details on [Deno Documentation Tests].
 
 ### Linting
 
-You can use the [deno] testing command to execute the tests:
+You can use the [Deno CLI Lint Command] to execute the static analysis:
 
 ```bash
 deno lint
@@ -146,9 +149,15 @@ This deployment uses a read-only volume mount to the source directory to get the
 - [Docker Compose]
 - [nginx]
 - [How to Enable Experimental Web Platform Features in Chrome Browser]
+- [Deno CLI Test Command]
+- [Deno Documentation Tests]
+- [Deno CLI Lint Command]
 
 [deno]: https://deno.com/
 [Docker]: https://www.docker.com/
 [Docker Compose]: https://docs.docker.com/compose/
 [nginx]: https://nginx.org/en/
 [How to Enable Experimental Web Platform Features in Chrome Browser]: https://techviral.net/enable-experimental-web-platform-features-in-chrome/
+[Deno CLI Test Command]: https://docs.deno.com/runtime/reference/cli/test/
+[Deno Documentation Tests]: https://docs.deno.com/runtime/reference/documentation/
+[Deno CLI Lint Command]: https://docs.deno.com/runtime/reference/cli/lint/
