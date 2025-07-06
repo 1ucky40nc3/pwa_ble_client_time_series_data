@@ -8,6 +8,11 @@ This repository is an example project to implement a PWA as a BLE client. The cl
 
 We implement the PWA client using HTML, CSS and JS. No build step is required to deploy the code in the [src](./src) directory. We use [deno] to testing, static analysis and documentation purposes.
 
+The BLE client expects that the server implements one service for time serial data. The service has one characteristic with the `notify` and `read` properties. The characteristic has values that may be interpreted as integers type data as part of a time series. The UUID of the service and characteristic can be found in the [configuration](#configuration).
+
+> **Tip:** This project is currently configured to work with the [PlatformIO ESP32-S3-DevKitC-1 Bluetooth Low Energy Server](https://github.com/1ucky40nc3/pio_esp32s3_devkit_ble) out of the box.
+
+
 ## Getting Started
 
 You need to install the following requirements:
@@ -157,6 +162,10 @@ docker compose up
 ```
 
 This deployment uses a read-only volume mount to the source directory to get the source files.
+
+## Configuration
+
+Set the configuration in the [config.js](lib/Config/config.h) header file. Use the provided constants as they are used in the code.
 
 ## Sources
 

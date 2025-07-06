@@ -11,16 +11,31 @@
 </head>
 
 <body>
-    <h2>Progressive Web App</h2>
-    <p>This is a simple Progressive Web App example.</p>
+    <h1>pwa_ble_client_time_series_data</h1>
+    <p>A HTML, CSS and JS Progressive Web App (PWA) as a Bluetooth Low Energy (BLE) Client for Time Series Data.</p>
+    <h2>Getting Started</h2>
+    <p>Scan and connect to a BLE device using the button below. After the connection the slider below </p>
 
-    <h2>Web Bluetooth Example</h2>
-    <button id="scanButton">Scan & Connect BLE Device</button>
-    <button id="disconnectButton" style="display: none;">Disconnect BLE</button>
+    <h2>Controls</h2>
+    <button id="scan-button">Scan & Connect BLE Device</button>
+    <button id="disconnect-button" style="display: none;">Disconnect BLE</button>
     <div id="bluetooth-status">Bluetooth Status: Not connected</div>
+    
+    <h2>BLE Information</h2>
     <div id="device-info"></div>
-    <div id="characteristic-data"></div>
-    <button id="updateButton" style="display: none;">update available! click to refresh</button>
+    <textarea id="characteristic-data" rows="4" cols="50"></textarea><br>
+    <label for="characteristic-data">Data logs from the time series characteristic</label>
+
+    <h2>Time Series Data</h2>
+    <input type="range" min="0" max="100" value="0" class="slider" id="time-series-range"><br>
+    <label for="time-series-range">A range to display the current time series data.</label>
+
+
+    <h2>Update PWA</h2>
+    <p>Click the button below to update the PWA.</p>
+    <button id="update-button" style="display: none;">Click to update PWA</button>
+
+    <script src="config.js" type="module"></script>
     <script src="utils.js" type="module"></script>
     <script src="app.js" type="module"></script>
 </body>
