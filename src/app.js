@@ -18,19 +18,6 @@ if ("serviceWorker" in navigator) {
       // listen for when a new service worker is found and waiting
       reg.addEventListener("updatefound", () => {
         serviceWorker = reg.installing;
-
-        if (serviceWorker) {
-          serviceWorker.addEventListener("statechange", () => {
-            if (
-              serviceWorker.state === "installed" &&
-              navigator.serviceWorker.controller
-            ) {
-              // a new service worker is installed and waiting
-              // (and there's an old one controlling the page)
-              updateButton.style.display = "block";
-            }
-          });
-        }
       });
     })
     .catch((error) => {

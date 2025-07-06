@@ -10,7 +10,7 @@ We implement the PWA client using HTML, CSS and JS. No build step is required to
 
 The BLE client expects that the server implements one service for time serial data. The service has one characteristic with the `notify` and `read` properties. The characteristic has values that may be interpreted as integers type data as part of a time series. The UUID of the service and characteristic can be found in the [configuration](#configuration).
 
-> **Tip:** This project is currently configured to work with the [PlatformIO ESP32-S3-DevKitC-1 Bluetooth Low Energy Server](https://github.com/1ucky40nc3/pio_esp32s3_devkit_ble) out of the box.
+> **Tip:** This project is currently configured to work with the [PlatformIO ESP32-S3-DevKitC-1 Bluetooth Low Energy Server] out of the box.
 
 
 ## Getting Started
@@ -167,6 +167,18 @@ This deployment uses a read-only volume mount to the source directory to get the
 
 Set the configuration in the [config.js](lib/Config/config.h) header file. Use the provided constants as they are used in the code.
 
+## Troubleshooting
+
+### The PWA Doesn't Have the Latest Changess
+
+Try to open your PWA in a private/incognito tab. If this does not help you can delete the browser data of the private/incognito tabs and restart the browser.
+
+### I can't Connect to the BLE Device
+
+If you are using the [PlatformIO ESP32-S3-DevKitC-1 Bluetooth Low Energy Server] project it should work out of the box. Make sure your browser is compatible (see [How to Enable Experimental Web Platform Features in Chrome Browser] to enable BLE support in some Chrome versions).
+
+Sometimes your have to connect to the BLE device multiple times to get it working.
+
 ## Sources
 
 - [deno]
@@ -186,3 +198,4 @@ Set the configuration in the [config.js](lib/Config/config.h) header file. Use t
 [Deno CLI Test Command]: https://docs.deno.com/runtime/reference/cli/test/
 [Deno Documentation Tests]: https://docs.deno.com/runtime/reference/documentation/
 [Deno CLI Lint Command]: https://docs.deno.com/runtime/reference/cli/lint/
+[PlatformIO ESP32-S3-DevKitC-1 Bluetooth Low Energy Server]: https://github.com/1ucky40nc3/pio_esp32s3_devkit_ble
